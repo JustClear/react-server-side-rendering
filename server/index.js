@@ -1,4 +1,5 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { StaticRouter, matchPath } from 'react-router-dom';
 import { renderToString } from 'react-dom/server';
 import koa from 'koa';
@@ -7,6 +8,7 @@ import Router from 'koa-router';
 
 import App from '@src/App';
 import routes from '@routes';
+import store from '@store';
 
 const app = new koa();
 const route = new Router();
@@ -23,9 +25,11 @@ route.get('*', async (ctx) => {
         console.log('data', data);
         
         const renderedString = renderToString(
-            <StaticRouter context={ context } location={ ctx.url } >
-                <App></App>
-            </StaticRouter>
+            <Provider store={store}>
+                <StaticRouter context={ context } location={ ctx.url } >
+                    <App></App>
+                </StaticRouter>
+            </Provider>
         );
 
         ctx.body = template();

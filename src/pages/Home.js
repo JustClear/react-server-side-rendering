@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import { createAction } from 'redux-actions';
+import store from '@store';
 import * as api from '@api/mocks';
 
 export default class Home extends React.Component {
@@ -30,11 +31,7 @@ export default class Home extends React.Component {
             });
             delete window.__STORE__;
         } else {
-            Home.fetchData().then(storyIDs => {
-                this.setState({
-                    storyIDs,
-                });
-            });
+            Home.fetchData().then(storyIDs => store.dispatch(createAction('FETCH_STORY_IDS')(storyIDs)));
         }
     }
     render() {

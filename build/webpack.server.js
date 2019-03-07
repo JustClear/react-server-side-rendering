@@ -7,7 +7,7 @@ module.exports = merge(base, {
         app: './server/index',
     },
     output: {
-        filename: 'js/[name].server.js',
+        filename: 'js/[name].server.js?[hash]',
         libraryTarget: 'commonjs2',
     },
 });

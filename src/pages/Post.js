@@ -1,28 +1,45 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-import * as api from '@api';
+import { createAction } from 'redux-actions';
+import store from '@store';
+import * as api from '@api/mocks';
 
 export default class Post extends React.Component {
     state = {
         story: {},
-        route: {},
     }
-    componentWillMount() {
-        const { match } = this.props;
-        this.setState({
-            route: match,
-        });
-        api.getStory(match.params.id).then(story => {
+    constructor(props) {
+        super(props);
+
+        if (props.staticContext && props.staticContext.data) {
+            this.state = {
+                story: props.staticContext.data,
+            };
+        } else {
+            this.state = {
+                story: {},
+            };
+        }
+    }
+    static fetchData({ id }) {
+        return api.getStory(id);
+    }
+    componentDidMount() {
+        if (window.__STORE__) {
             this.setState({
-                story,
+                story: window.__STORE__,
             });
-            console.log('story', story);
-        });
+            delete window.__STORE__;
+        } else {
+            const { params } = this.props.match;
+            Post.fetchData(params.id).then(story => {
+                store.dispatch(createAction('FETCH_STORY')(story))
+            });
+        }
     }
     render() {
-        const { story, route } = this.state;
-        const { params } = route;
+        const { story } = this.state;
+        const { params } = this.props.match;
         
         return (
             <div>
