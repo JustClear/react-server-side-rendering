@@ -13,7 +13,7 @@ export const getStory = id => {
     });
 };
 
-export const getTopStory = () => {
+export const getTopStories = () => {
     return new Promise((resolve) => {
         setTimeout(() => resolve([
             19322448,
