@@ -1,23 +1,44 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import * as api from '@api';
+import * as api from '@api/mocks';
 
 export default class Home extends React.Component {
     state = {
         storyIDs: [],
     }
-    componentWillMount() {
-        api.getTopStory().then(storyIDs => {
-            storyIDs = storyIDs.slice(0, 10)
+    constructor(props) {
+        super(props);
+
+        if (props.staticContext && props.staticContext.data) {
+            this.state = {
+                storyIDs: props.staticContext.data,
+            };
+        } else {
+            this.state = {
+                storyIDs: [],
+            };
+        }
+    }
+    static fetchData() {
+        return api.getTopStories();
+    }
+    componentDidMount() {
+        if (window.__STORE__) {
             this.setState({
-                storyIDs,
+                storyIDs: window.__STORE__,
             });
-            console.log('topStories', storyIDs);
-        });
+            delete window.__STORE__;
+        } else {
+            Home.fetchData().then(storyIDs => {
+                this.setState({
+                    storyIDs,
+                });
+            });
+        }
     }
     render() {
-        const { storyIDs } = this.state
+        const { storyIDs } = this.state;
         return (
             <div>
                 <h1>Home ...</h1>
