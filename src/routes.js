@@ -6,7 +6,7 @@ export default [{
     exact: true,
     component: Home,
 }, {
-    path: '/post',
+    path: '/post/:id',
     exact: true,
     component: Post,
 }];
