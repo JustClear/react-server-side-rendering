@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "http-server .",
+    "server": "nodemon ./dist/js/app.server.js",
     "watch": "NODE_ENV=development webpack -w --config build/webpack.client.js --mode development",
     "watch:server": "NODE_ENV=development webpack -w --config build/webpack.server.js --mode development",
     "build": "NODE_ENV=production webpack --config build/webpack.client.js --mode production",
@@ -25,6 +26,9 @@
     "webpack-merge": "^4.2.1"
   },
   "dependencies": {
+    "koa": "^2.7.0",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
     "node-fetch": "^2.3.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
