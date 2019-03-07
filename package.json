@@ -1,0 +1,27 @@
+{
+  "name": "react-server-side-rendering",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=development webpack-dev-server --config build/webpack.client.js --mode development",
+    "watch:client": "NODE_ENV=development webpack -w --config build/webpack.client.js --mode development",
+    "watch:server": "NODE_ENV=development webpack -w --config build/webpack.server.js --mode development",
+    "build:client": "NODE_ENV=production webpack --config build/webpack.client.js --mode production",
+    "build:server": "NODE_ENV=production webpack --config build/webpack.server.js --mode production"
+  },
+  "repository": "https://github.com/JustClear/react-server-side-rendering.git",
+  "author": "<大板栗 576839360@qq.com>",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-react-app": "^7.0.2",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.2.1",
+    "webpack-merge": "^4.2.1"
+  }
+}
