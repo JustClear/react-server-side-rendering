@@ -1,3 +1,4 @@
+import fetch from 'node-fetch';
 
 const prefix = `https://hacker-news.firebaseio.com/v0/`;
 
