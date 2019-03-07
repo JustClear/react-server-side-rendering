@@ -6,6 +6,6 @@ module.exports = merge(base, {
         app: './src/index',
     },
     output: {
-        filename: 'js/[name].client.js'
+        filename: 'js/[name].js'
     },
 });
