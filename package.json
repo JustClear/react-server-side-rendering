@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=development webpack-dev-server --config build/webpack.client.js --mode development",
-    "watch:client": "NODE_ENV=development webpack -w --config build/webpack.client.js --mode development",
+    "watch": "NODE_ENV=development webpack -w --config build/webpack.client.js --mode development",
     "watch:server": "NODE_ENV=development webpack -w --config build/webpack.server.js --mode development",
-    "build:client": "NODE_ENV=production webpack --config build/webpack.client.js --mode production",
+    "build": "NODE_ENV=production webpack --config build/webpack.client.js --mode production",
     "build:server": "NODE_ENV=production webpack --config build/webpack.server.js --mode production"
   },
   "repository": "https://github.com/JustClear/react-server-side-rendering.git",
