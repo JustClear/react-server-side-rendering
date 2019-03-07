@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { createAction } from 'redux-actions';
 import { StaticRouter, matchPath } from 'react-router-dom';
 import { renderToString } from 'react-dom/server';
 import koa from 'koa';
@@ -22,7 +23,6 @@ route.get('*', async (ctx) => {
         const context = {
             data,
         };
-        console.log('data', data);
         
         const renderedString = renderToString(
             <Provider store={store}>
@@ -46,7 +46,7 @@ route.get('*', async (ctx) => {
                 </head>
                 <body>
                     <div id="app">${renderedString}</div>
-                    <script>window.__STORE__ = ${JSON.stringify(data)}</script>
+                    <script>window.__STORE__ = ${JSON.stringify(store.getState())}</script>
                     <script src="/js/app.js"></script>
                 </body>
                 </html>

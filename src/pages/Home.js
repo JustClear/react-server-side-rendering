@@ -21,17 +21,19 @@ export default class Home extends React.Component {
             };
         }
     }
-    static fetchData() {
-        return api.getTopStories();
+    static async fetchData() {
+        const data = await api.getTopStories();
+        store.dispatch(createAction('FETCH_STORY_IDS')(data));
+        return data;
     }
-    componentDidMount() {
+    async componentDidMount() {
         if (window.__STORE__) {
             this.setState({
-                storyIDs: window.__STORE__,
+                storyIDs: window.__STORE__.storyIDs,
             });
-            delete window.__STORE__;
         } else {
-            Home.fetchData().then(storyIDs => store.dispatch(createAction('FETCH_STORY_IDS')(storyIDs)));
+            const storyIDs = await Home.fetchData();
+            store.dispatch(createAction('FETCH_STORY_IDS')(storyIDs))
         }
     }
     render() {

@@ -21,20 +21,20 @@ export default class Post extends React.Component {
             };
         }
     }
-    static fetchData({ id }) {
-        return api.getStory(id);
+    static async fetchData() {
+        const story = await api.getStory(1);
+        store.dispatch(createAction('FETCH_STORY')(story))
+        return story;
     }
-    componentDidMount() {
+    async componentDidMount() {
         if (window.__STORE__) {
             this.setState({
-                story: window.__STORE__,
+                story: window.__STORE__.story,
             });
-            delete window.__STORE__;
         } else {
             const { params } = this.props.match;
-            Post.fetchData(params.id).then(story => {
-                store.dispatch(createAction('FETCH_STORY')(story))
-            });
+            const story = await Post.fetchData(params.id);
+            store.dispatch(createAction('FETCH_STORY')(story))
         }
     }
     render() {
