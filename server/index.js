@@ -16,10 +16,10 @@ const route = new Router();
 
 route.get('*', async (ctx) => {
     try {
-        const [ matched ] = routes.map(route => matchPath(ctx.url, route)).filter(route => route);
-        const currentRoute = matched || {};
+        const currentRoute = routes.find(route => matchPath(ctx.url, route)) || {};
+        const match = matchPath(ctx.url, currentRoute);
         const { component } = currentRoute;
-        const promise = component && component.fetchData ? component.fetchData(currentRoute) : Promise.resolve(null);
+        const promise = component && component.fetchData ? component.fetchData(match) : Promise.resolve(null);
 
         const data = await promise;
         const context = {
