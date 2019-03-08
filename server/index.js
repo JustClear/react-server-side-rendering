@@ -6,6 +6,7 @@ import { renderToString } from 'react-dom/server';
 import koa from 'koa';
 import serve from 'koa-static';
 import Router from 'koa-router';
+import serialize from 'serialize-javascript';
 
 import App from '@src/App';
 import routes from '@routes';
@@ -48,11 +49,10 @@ route.get('*', async (ctx) => {
                 </head>
                 <body>
                     <div id="app">${renderedString}</div>
-                    <script>window.__STORE__ = ${JSON.stringify(store.getState())}</script>
+                    <script>window.__STORE__ = ${serialize(store.getState())}</script>
                     <script src="/js/app.js"></script>
                 </body>
                 </html>
-
             `;
         }
     } catch (error) {
