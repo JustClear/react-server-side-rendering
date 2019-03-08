@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { createAction } from 'redux-actions';
 import store from '@store';
 import * as api from '@api/mocks';
+import { isEmpty } from '@common';
 
 export default class Home extends React.Component {
     state = {
@@ -27,13 +28,16 @@ export default class Home extends React.Component {
         return data;
     }
     async componentDidMount() {
-        if (window.__STORE__) {
+        if (isEmpty(window.__STORE__.storyIDs)) {
+            const storyIDs = await Home.fetchData();
+            store.dispatch(createAction('FETCH_STORY_IDS')(storyIDs))
+            this.setState({
+                storyIDs: store.getState().storyIDs,
+            });
+        } else {
             this.setState({
                 storyIDs: window.__STORE__.storyIDs,
             });
-        } else {
-            const storyIDs = await Home.fetchData();
-            store.dispatch(createAction('FETCH_STORY_IDS')(storyIDs))
         }
     }
     render() {

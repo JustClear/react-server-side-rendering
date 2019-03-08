@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { createAction } from 'redux-actions';
 import store from '@store';
 import * as api from '@api/mocks';
+import { isEmpty } from '@common';
 
 export default class Post extends React.Component {
     state = {
@@ -21,20 +22,23 @@ export default class Post extends React.Component {
             };
         }
     }
-    static async fetchData() {
-        const story = await api.getStory(1);
+    static async fetchData({ params }) {
+        const story = await api.getStory(params.id);
         store.dispatch(createAction('FETCH_STORY')(story))
         return story;
     }
     async componentDidMount() {
-        if (window.__STORE__) {
+        if (isEmpty(window.__STORE__.story)) {
+            const { match } = this.props;
+            const story = await Post.fetchData(match);
+            store.dispatch(createAction('FETCH_STORY')(story))
+            this.setState({
+                story: store.getState().story,
+            });
+        } else {
             this.setState({
                 story: window.__STORE__.story,
             });
-        } else {
-            const { params } = this.props.match;
-            const story = await Post.fetchData(params.id);
-            store.dispatch(createAction('FETCH_STORY')(story))
         }
     }
     render() {
